@@ -1,7 +1,15 @@
 import React, { useState } from "react";
+import Preview from './components/Preview'
 import "./App.css";
 
 function App() {
+  const [notes, setnotes] = useState([]);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [selectedNote, setSelectedNote] = useState(null);
+  const [editing, setEditing] = useState(false);
+
   //to view (add new note)
   const getAddNote = () => {
     return (
@@ -36,10 +44,10 @@ function App() {
       <div>
         <div className="note-operations">
           <a id="editIcon" href="#">
-            <i className="fa fa-pencil-alt"/>
+            <i className="fa fa-pencil-alt" />
           </a>
-          <a  id="deletIcon" href="#">
-            <i className="fa fa-trash"/>
+          <a id="deletIcon" href="#">
+            <i className="fa fa-trash" />
           </a>
         </div>
         <div>
@@ -50,6 +58,7 @@ function App() {
     );
   };
 
+  const addNoteHandler = () => setCreating(true);
   return (
     <div className="App">
       <div className="notes-section">
@@ -59,11 +68,13 @@ function App() {
           <li className="note-item">Notiz Num. 3</li>
           <li className="note-item">Notiz Num. 4</li>
         </ul>
-        <button className="add-btn">+</button>
+        <button className="add-btn" onClick={addNoteHandler}>
+          +
+        </button>
       </div>
-      <div className="preview-section">
-                    {getPreview()}
-                </div>
+      <Preview className="preview-section">
+        {creating ? getAddNote() : getPreview()}
+      </Preview>
     </div>
   );
 }
