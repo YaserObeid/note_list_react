@@ -30,6 +30,8 @@ function App() {
     setnotes(updareNotes);
     setCreating(false);
     setSelectedNote(note.id);
+    setContent('');
+    setTitle('');
   };
   //to view (add new note)
   const getAddNote = () => {
