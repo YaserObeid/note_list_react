@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Preview from './components/Preview'
+import Preview from "./components/Preview";
 import "./App.css";
 
 function App() {
@@ -10,6 +10,27 @@ function App() {
   const [selectedNote, setSelectedNote] = useState(null);
   const [editing, setEditing] = useState(false);
 
+  //set the new title
+  const onChangeTitleHandler = (e) => {
+    setTitle(e.target.value);
+  };
+  //set the new content
+  const onChangeContentHandler = (e) => {
+    setContent(e.target.value);
+  };
+  // save the new note
+  const savenoteHandler = () => {
+    const note = {
+      id: new Date(),
+      title: title,
+      content: content,
+    };
+
+    const updareNotes = [...notes, note];
+    setnotes(updareNotes);
+    setCreating(false);
+    setSelectedNote(note.id);
+  };
   //to view (add new note)
   const getAddNote = () => {
     return (
@@ -21,7 +42,8 @@ function App() {
             name="title"
             className="form-input mb-30"
             placeholder="Notiz-Title"
-            value=""
+            value={title}
+            onChange={onChangeTitleHandler}
           />
 
           <textarea
@@ -29,9 +51,11 @@ function App() {
             name="content"
             className="form-input"
             placeholder="Notiz schreiben"
+            value={content}
+            onChange={onChangeContentHandler}
           />
 
-          <a href="#" className="button green">
+          <a href="#" className="button green" onClick={savenoteHandler}>
             speischern
           </a>
         </div>
