@@ -1,9 +1,9 @@
 import React from 'react'
 
 const Preview = (props)=> (
-  <div className="preview-section">
+  <h2 className="preview-section">
       {props.children}
-  </div>
+  </h2>
 );
 
 export default Preview;

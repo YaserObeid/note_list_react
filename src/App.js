@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import Preview from "./components/Preview";
+import Message from "./components/Message";
+import NotesContainer from "./components/Notes/NotesContainer";
+import NotesList from "./components/Notes/NotesList";
+import Note from "./components/Notes/Note";
 import "./App.css";
 
 function App() {
@@ -33,7 +37,9 @@ function App() {
     setContent('');
     setTitle('');
   };
-  //to view (add new note)
+  // to select a note
+  const selectedNoteHandler = (notId)=> setSelectedNote(notId);
+  //to view ( form: add new note)
   const getAddNote = () => {
     return (
       <div>
@@ -66,6 +72,16 @@ function App() {
   };
   // to view the content of selected Note
   const getPreview = () => {
+    if (notes.length === 0) {
+      return <Message messageTitle="es git keine Notizen" />;
+    }
+
+    if (!selectedNote) {
+      return <Message messageTitle="Bitte, Notiz auswählen" />;
+    }
+
+    const note = notes.find((note) => note.id === selectedNote);
+
     return (
       <div>
         <div className="note-operations">
@@ -77,8 +93,8 @@ function App() {
           </a>
         </div>
         <div>
-          <h2>Muster-Titel</h2>
-          <p>Muster-Text</p>
+          <h2>{note.title}</h2>
+          <p>{note.content}</p>
         </div>
       </div>
     );
@@ -87,17 +103,19 @@ function App() {
   const addNoteHandler = () => setCreating(true);
   return (
     <div className="App">
-      <div className="notes-section">
-        <ul className="notes-list">
-          <li className="note-item">Notiz Num. 1</li>
-          <li className="note-item">Notiz Num. 2</li>
-          <li className="note-item">Notiz Num. 3</li>
-          <li className="note-item">Notiz Num. 4</li>
-        </ul>
-        <button className="add-btn" onClick={addNoteHandler}>
-          +
-        </button>
-      </div>
+      <NotesContainer>
+        <NotesList>
+          {notes.map( note => 
+          <Note key ={note.id} 
+            title={note.title}
+            active ={note.id === selectedNote}
+            clickedNote = {()=> selectedNoteHandler(note.id)}
+            />)};
+
+       
+        <button className="add-btn" onClick={addNoteHandler}>+</button>
+        </NotesList>
+      </NotesContainer>
       <Preview className="preview-section">
         {creating ? getAddNote() : getPreview()}
       </Preview>
