@@ -35,7 +35,7 @@ body {
   background-color: #c82333;
   text-align: center;
   border-radius: 50%;
-  font-size: 30px;
+  font-size: 20px;
   border: 0;
   cursor: pointer;
   color: #fff;
@@ -53,7 +53,7 @@ body {
 .note-item {
   cursor: pointer;
   padding: 12px 10px;
-  font-size: 15px;
+  font-size: 20px;
   color: #fff;
   border-bottom: 0.5px solid #fff;
 }
@@ -67,7 +67,7 @@ body {
   width: 100%;
   padding: 0.7rem 0.75rem;
   font-size: 1rem;
-  font-family: cairo;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.5;
   color: #495057;
   background-color: #fff;

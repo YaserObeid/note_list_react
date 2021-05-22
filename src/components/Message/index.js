@@ -2,7 +2,7 @@ import React from 'react';
 
 const Message = (props)=>(
     <h2 className="center">
-        {props.messagtitle}
+        {props.message}
     </h2>
 );
 

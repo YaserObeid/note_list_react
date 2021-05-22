@@ -7,6 +7,6 @@ const Note = (props) => {
       {title}
     </li>
   );
-};
+}
 
 export default Note;
