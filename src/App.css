@@ -88,10 +88,16 @@ body {
 }
 #editIcon {
   color: #119131;
+  padding: 0;
+  border: none;
+  background: none;
 }
 
-#deletIcon {
+#deleteIcon {
   color: #ec0d0d;
+  padding: 0;
+  border: none;
+  background: none;
 }
 
 .button {

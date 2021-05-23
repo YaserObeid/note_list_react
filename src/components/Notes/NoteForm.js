@@ -31,9 +31,9 @@ const NoteForm = (promps) => {
           value={content}
           onChange={contentChanched}
         />
-        <a href="#" className="button green" onClick={submitClicked}>
+        <button className="button green" onClick={submitClicked}>
           {submitInner}
-        </a>
+        </button>
       </div>
     </div>
   );
