@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Message = (props)=>(
-    <div className="center">
+    <h2 className="center">
         {props.message}
-    </div>
+    </h2>
 );
 
 export default Message;

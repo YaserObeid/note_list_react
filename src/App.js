@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Preview from "./components/Preview";
 import Message from "./components/Message";
 import NotesContainer from "./components/Notes/NotesContainer";
@@ -8,26 +8,12 @@ import "./App.css";
 import NoteForm from "./components/Notes/NoteForm";
 
 function App() {
-  const [notes, setNotes] = useState([]);
+  const [notes, setnotes] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [creating, setCreating] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [editing, setEditing] = useState(false);
-
-  //update on upload the local storage
-  useEffect(() => {
-    if (localStorage.getItem("notes")) {
-      setNotes(JSON.parse(localStorage.getItem("notes")));
-    } else {
-      localStorage.setItem("notes", JSON.stringify([]));
-    }
-  }, []);
-
-  //save to local storage
-  const saveToLocalStorage = (key, value) => {
-    localStorage.setItem(key, JSON.stringify(value));
-  };
 
   //set the new title
   const changeTitleHandler = (e) => {
@@ -45,8 +31,7 @@ function App() {
       content: content,
     };
     const updateNotes = [...notes, note];
-    saveToLocalStorage("notes", updateNotes);
-    setNotes(updateNotes);
+    setnotes(updateNotes);
     setCreating(false);
     setSelectedNote(note.id);
     setContent("");
@@ -60,7 +45,7 @@ function App() {
     setCreating(false);
   };
 
-  //change to editing the selected note
+  //change to editing the delected note
   const editNotHandler = () => {
     const note = notes.find((note) => note.id === selectedNote);
     setEditing(true);
@@ -76,8 +61,7 @@ function App() {
       title: title,
       content: content,
     };
-    saveToLocalStorage("notes", updatedNotes);
-    setNotes(updatedNotes);
+    setnotes(updatedNotes);
     setContent("");
     setTitle("");
     setEditing(false);
@@ -90,15 +74,12 @@ function App() {
     setTitle("");
   };
 
-  //delete the selected note
+  // delete the selected note
   const deleteNoteHandler = () => {
-    const updatedNotes = [...notes];
-    const noteIndex = updatedNotes.findIndex(
-      (note) => note.id === selectedNote
-    );
+    const updateNotes = [...notes];
+    const noteIndex = updateNotes.findIndex((note) => note.id === selectedNote);
     notes.splice(noteIndex, 1);
-    saveToLocalStorage("notes", notes);
-    setNotes(notes);
+    setnotes(notes);
     setSelectedNote(null);
   };
 
@@ -119,8 +100,7 @@ function App() {
 
   // to view the content of selected Note
   const getPreview = () => {
-    if (notes.length === 0)
-      return <Message message="Sie haben keine Notizen" />;
+    if (notes.length === 0) return <Message message="Es git keine Notizen" />;
 
     if (!selectedNote) return <Message message="Bitte, Notiz auswählen" />;
 
@@ -151,13 +131,12 @@ function App() {
       <div>
         {!editing && (
           <div className="note-operations">
-            <button id="editIcon" onClick={editNotHandler}>
-              <i className="fa fa-pencil-alt"></i>
-            </button>
-
-            <button id="deleteIcon" onClick={deleteNoteHandler}>
-              <i className="fa fa-trash"></i>
-            </button>
+            <a id="editIcon" href="#">
+              <i className="fa fa-pencil-alt" onClick={editNotHandler} />
+            </a>
+            <a id="deletIcon" href="#">
+              <i className="fa fa-trash" onClick={deleteNoteHandler} />
+            </a>
           </div>
         )}
         {noteDisplay}
