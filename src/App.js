@@ -5,6 +5,7 @@ import NotesContainer from "./components/Notes/NotesContainer";
 import NotesList from "./components/Notes/NotesList";
 import Note from "./components/Notes/Note";
 import "./App.css";
+import NoteForm from "./components/Notes/NoteForm";
 
 function App() {
   const [notes, setnotes] = useState([]);
@@ -15,11 +16,11 @@ function App() {
   const [editing, setEditing] = useState(false);
 
   //set the new title
-  const onChangeTitleHandler = (e) => {
+  const changeTitleHandler = (e) => {
     setTitle(e.target.value);
   };
   //set the new content
-  const onChangeContentHandler = (e) => {
+  const changeContentHandler = (e) => {
     setContent(e.target.value);
   };
   //save the new note
@@ -76,32 +77,15 @@ function App() {
   //to view ( form: add new note)
   const getAddNote = () => {
     return (
-      <div>
-        <h2>Notiz Einfügen</h2>
-        <div>
-          <input
-            type="text"
-            name="title"
-            className="form-input mb-30"
-            placeholder="Notiz-Title"
-            value={title}
-            onChange={onChangeTitleHandler}
-          />
-
-          <textarea
-            rows="9"
-            name="content"
-            className="form-input"
-            placeholder="Notiz schreiben"
-            value={content}
-            onChange={onChangeContentHandler}
-          />
-
-          <a href="#" className="button green" onClick={saveNoteHandler}>
-            speischern
-          </a>
-        </div>
-      </div>
+      <NoteForm
+        formTitle="Notiz einfügen"
+        title={title}
+        content={content}
+        titleChanged={changeTitleHandler}
+        contentChanched={changeContentHandler}
+        submitClicked={saveNoteHandler}
+        submitInner="speichern"
+      />
     );
   };
 
@@ -123,31 +107,15 @@ function App() {
 
     if (editing)
       noteDisplay = (
-        <div>
-          <h2>Notiz bearbeiten</h2>
-          <form>
-            <input
-              type="text"
-              name="title"
-              className="form-input mb-30"
-              placeholder="Notiz-Title"
-              value={title}
-              onChange={onChangeTitleHandler}
-            />
-
-            <textarea
-              rows="9"
-              name="content"
-              className="form-input"
-              placeholder="Notiz schreiben"
-              value={content}
-              onChange={onChangeContentHandler}
-            />
-          </form>
-          <a href="#" className="button green" onClick={updateNoteHandler}>
-            speischern
-          </a>
-        </div>
+        <NoteForm
+          formTitle="Notiz bearbriten"
+          title={title}
+          content={content}
+          titleChanged={changeTitleHandler}
+          contentChanched={changeContentHandler}
+          submitClicked={updateNoteHandler}
+          submitInner="aktualisieren"
+        />
       );
 
     return (

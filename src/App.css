@@ -67,7 +67,7 @@ body {
   width: 100%;
   padding: 0.7rem 0.75rem;
   font-size: 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.5;
   color: #495057;
   background-color: #fff;
@@ -100,7 +100,7 @@ body {
   text-align: center;
   text-decoration: none;
   color: #fff;
-  padding: 5px 60px;
+  padding: 5px 15px;
   font-size: 20px;
 }
 
