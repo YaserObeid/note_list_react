@@ -74,6 +74,15 @@ function App() {
     setTitle("");
   };
 
+  // delete the selected note
+  const deleteNoteHandler = () => {
+    const updateNotes = [...notes];
+    const noteIndex = updateNotes.findIndex((note) => note.id === selectedNote);
+    notes.splice(noteIndex, 1);
+    setnotes(notes);
+    setSelectedNote(null);
+  };
+
   //to view ( form: add new note)
   const getAddNote = () => {
     return (
@@ -126,7 +135,7 @@ function App() {
               <i className="fa fa-pencil-alt" onClick={editNotHandler} />
             </a>
             <a id="deletIcon" href="#">
-              <i className="fa fa-trash" />
+              <i className="fa fa-trash" onClick={deleteNoteHandler} />
             </a>
           </div>
         )}
