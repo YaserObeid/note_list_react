@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-const NotesContainer = (props)=> (
-    <div className="notes-section">
-        {props.children}
-    </div>
-)
+const NotesContainer = (props) => (
+  <div className="notes-section">
+      {props.children}
+  </div>
+);
 export default NotesContainer;

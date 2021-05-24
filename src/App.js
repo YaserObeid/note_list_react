@@ -6,6 +6,7 @@ import NotesList from "./components/Notes/NotesList";
 import Note from "./components/Notes/Note";
 import "./App.css";
 import NoteForm from "./components/Notes/NoteForm";
+import Alert from "./components/Alert";
 
 function App() {
   const [notes, setNotes] = useState([]);
@@ -14,6 +15,7 @@ function App() {
   const [creating, setCreating] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [editing, setEditing] = useState(false);
+  const [validationErrors, setValidationErrors] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("notes")) {
@@ -23,6 +25,12 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    if (validationErrors.length !== 0)
+      setTimeout(() => {
+        setValidationErrors([]);
+      }, 3000);
+  }, [validationErrors]);
   //save the notes to local sotrage
   const saveTolocalstorage = (key, value) => {
     localStorage.setItem(key, JSON.stringify(value));
@@ -38,6 +46,7 @@ function App() {
   };
   //save the new note
   const saveNoteHandler = () => {
+    if (!validate()) return;
     const note = {
       id: new Date(),
       title: title,
@@ -68,6 +77,7 @@ function App() {
   };
   //update a note
   const updateNoteHandler = () => {
+    if (!validate()) return;
     const updatedNotes = [...notes];
     const noteIndex = notes.findIndex((note) => note.id === selectedNote);
     updatedNotes[noteIndex] = {
@@ -99,6 +109,22 @@ function App() {
     setSelectedNote(null);
   };
 
+  //validation the input errors
+  const validate = () => {
+    const errorMessages = [];
+    let validInput = true;
+    if (!title) {
+      errorMessages.push("Bitte, den Title eingeben! ");
+      validInput = false;
+    }
+    if (!content) {
+      errorMessages.push("Bitte, den Inhalt eingeben! ");
+      validInput = false;
+    }
+    setValidationErrors(errorMessages);
+    return validInput;
+  };
+
   //to view ( form: add new note)
   const getAddNote = () => {
     return (
@@ -116,7 +142,7 @@ function App() {
 
   // to view the content of selected Note
   const getPreview = () => {
-    if (notes.length === 0) return <Message message="Es git keine Notizen" />;
+    if (notes.length === 0) return <Message message="Es gibt keine Notizen" />;
 
     if (!selectedNote) return <Message message="Bitte, Notiz auswählen" />;
 
@@ -180,6 +206,9 @@ function App() {
       <Preview className="preview-section">
         {creating ? getAddNote() : getPreview()}
       </Preview>
+      {validationErrors.length !== 0 && (
+        <Alert validationMessages={validationErrors} />
+      )}
     </div>
   );
 }
