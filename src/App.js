@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Preview from "./components/Preview";
 import Message from "./components/Message";
 import NotesContainer from "./components/Notes/NotesContainer";
@@ -8,12 +8,25 @@ import "./App.css";
 import NoteForm from "./components/Notes/NoteForm";
 
 function App() {
-  const [notes, setnotes] = useState([]);
+  const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [creating, setCreating] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [editing, setEditing] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("notes")) {
+      setNotes(JSON.parse(localStorage.getItem("notes")));
+    } else {
+      localStorage.setItem("notes", JSON.stringify([]));
+    }
+  }, []);
+
+  //save the notes to local sotrage
+  const saveTolocalstorage = (key, value) => {
+    localStorage.setItem(key, JSON.stringify(value));
+  };
 
   //set the new title
   const changeTitleHandler = (e) => {
@@ -30,8 +43,9 @@ function App() {
       title: title,
       content: content,
     };
-    const updateNotes = [...notes, note];
-    setnotes(updateNotes);
+    const updatedNotes = [...notes, note];
+    saveTolocalstorage("notes", updatedNotes);
+    setNotes(updatedNotes);
     setCreating(false);
     setSelectedNote(note.id);
     setContent("");
@@ -45,7 +59,7 @@ function App() {
     setCreating(false);
   };
 
-  //change to editing the delected note
+  //change to editing the selected note
   const editNotHandler = () => {
     const note = notes.find((note) => note.id === selectedNote);
     setEditing(true);
@@ -61,7 +75,8 @@ function App() {
       title: title,
       content: content,
     };
-    setnotes(updatedNotes);
+    updatedNotes("notes", updatedNotes);
+    setNotes(updatedNotes);
     setContent("");
     setTitle("");
     setEditing(false);
@@ -79,7 +94,8 @@ function App() {
     const updateNotes = [...notes];
     const noteIndex = updateNotes.findIndex((note) => note.id === selectedNote);
     notes.splice(noteIndex, 1);
-    setnotes(notes);
+    saveTolocalstorage("notes", notes);
+    setNotes(notes);
     setSelectedNote(null);
   };
 
